@@ -78,7 +78,7 @@ function main() {
     }
     renderer.render(camera, lambert, [
       icosphere,
-      // square,
+      square,
     ]);
     stats.end();
 
