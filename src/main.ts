@@ -78,6 +78,7 @@ function main() {
     }
     renderer.render(camera, lambert, [
       icosphere,
+      // Render square for testing
       square,
     ]);
     stats.end();
