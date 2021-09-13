@@ -1,4 +1,4 @@
-import {vec3} from 'gl-matrix';
+import {vec3, vec4} from 'gl-matrix';
 const Stats = require('stats-js');
 import * as DAT from 'dat.gui';
 import Icosphere from './geometry/Icosphere';
@@ -104,7 +104,8 @@ function main() {
       // Render square for testing
       //square,
       cube,
-    ]);
+    ],
+    vec4.fromValues(0, 0, 1, 1));
     stats.end();
 
     // Tell the browser to call `tick` again whenever it renders a new frame
