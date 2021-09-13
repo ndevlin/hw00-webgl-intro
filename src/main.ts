@@ -87,6 +87,11 @@ function main() {
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/lambert-frag.glsl')),
   ]);
 
+  const custom = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/custom-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/custom-frag.glsl')),
+  ]);
+
   // This function will be called every frame
   function tick() {
     camera.update();
@@ -99,6 +104,9 @@ function main() {
       icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, prevTesselations);
       icosphere.create();
     }
+
+    // Render with lambert shader
+    /*
     renderer.render(camera, lambert, [
       icosphere,
       // Render square for testing
@@ -107,6 +115,19 @@ function main() {
     ],
     // Divide by 256 to convert from web RGB to shader 0-1 values
     vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1));
+    */
+
+    // Render with custom shader
+    renderer.render(camera, custom, [
+      icosphere,
+      // Render square for testing
+      //square,
+      cube,
+    ],
+    // Divide by 256 to convert from web RGB to shader 0-1 values
+    vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1));
+
+
     stats.end();
 
     // Tell the browser to call `tick` again whenever it renders a new frame
