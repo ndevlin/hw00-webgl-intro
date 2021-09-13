@@ -105,7 +105,7 @@ function main() {
       //square,
       cube,
     ],
-    vec4.fromValues(0, 0, 1, 1));
+    vec4.fromValues(actualColor.defaultColor[0] / 256.0, actualColor.defaultColor[1] / 256.0, actualColor.defaultColor[2] / 256.0, 1));
     stats.end();
 
     // Tell the browser to call `tick` again whenever it renders a new frame
