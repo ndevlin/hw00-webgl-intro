@@ -16,8 +16,8 @@ const controls = {
   'Load Scene': loadScene, // A function pointer, essentially
 };
 
-const actualColor = {
-  defaultColor: [ 255, 0, 0 ], // RGB array
+const colorObject = {
+  actualColor: [ 255, 0, 0 ], // RGB array
 };
 
 
@@ -57,7 +57,7 @@ function main() {
   gui.add(controls, 'Load Scene');
 
 
-  gui.addColor(actualColor, 'defaultColor');
+  gui.addColor(colorObject, 'actualColor');
 
 
   // get canvas and webgl context
@@ -105,7 +105,8 @@ function main() {
       //square,
       cube,
     ],
-    vec4.fromValues(actualColor.defaultColor[0] / 256.0, actualColor.defaultColor[1] / 256.0, actualColor.defaultColor[2] / 256.0, 1));
+    // Divide by 256 to convert from web RGB to shader 0-1 values
+    vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1));
     stats.end();
 
     // Tell the browser to call `tick` again whenever it renders a new frame
