@@ -15,16 +15,81 @@ class Cube extends Drawable {
 
   create() {
 
-  this.indices = new Uint32Array([0, 1, 2,
-                                  0, 2, 3]);
-  this.normals = new Float32Array([0, 0, 1, 0,
+  this.indices = new Uint32Array([
+                                  // First Face
+                                  0, 1, 2,
+                                  0, 2, 3,
+                                
+                                  // Second Face
+                                  0, 3, 4,
+                                  0, 4, 5,
+
+                                  // Third Face
+                                  0, 1, 6,
+                                  0, 5, 6,
+
+                                  // Fourth Face
+                                  1, 2, 7,
+                                  1, 7, 6,
+
+                                  // Fifth Face
+                                  4, 5, 6,
+                                  4, 6, 7,
+
+                                  // Sixth Face
+                                  2, 3, 4,
+                                  2, 4, 7
+                                ]);
+  this.normals = new Float32Array([
+                                  // First Face
                                    0, 0, 1, 0,
                                    0, 0, 1, 0,
-                                   0, 0, 1, 0]);
-  this.positions = new Float32Array([-1 + this.center[0], -1 + this.center[1], 0 + this.center[2], 1,
-                                     1 + this.center[0], -1 + this.center[1], 0 + this.center[2], 1,
-                                     1 + this.center[0], 1 + this.center[1], 0 + this.center[2], 1,
-                                     -1 + this.center[0], 1 + this.center[1], 0 + this.center[2], 1]);
+                                   0, 0, 1, 0,
+                                   0, 0, 1, 0, 
+
+                                  // Second Face
+                                  -1, 0, 0, 0,
+                                  -1, 0, 0, 0,
+                                  -1, 0, 0, 0,
+                                  -1, 0, 0, 0,
+
+                                  // Third Face
+                                  0, -1, 0, 0,
+                                  0, -1, 0, 0,
+                                  0, -1, 0, 0,
+                                  0, -1, 0, 0,
+
+                                  // Fourth Face
+                                  1, 0, 0, 0,
+                                  1, 0, 0, 0,
+                                  1, 0, 0, 0,
+                                  1, 0, 0, 0,
+
+                                  // Fifth Face
+                                  0, 0, -1, 0,
+                                  0, 0, -1, 0,
+                                  0, 0, -1, 0,
+                                  0, 0, -1, 0,
+
+                                  // Sixth Face
+                                  0, 1, 0, 0,
+                                  0, 1, 0, 0,
+                                  0, 1, 0, 0,
+                                  0, 1, 0, 0
+                                  ]);
+  this.positions = new Float32Array([
+                                    -1 + this.center[0], -1 + this.center[1], 1 + this.center[2], 1,
+                                    1 + this.center[0], -1 + this.center[1], 1 + this.center[2], 1,
+                                    1 + this.center[0], 1 + this.center[1], 1 + this.center[2], 1,
+                                    -1 + this.center[0], 1 + this.center[1], 1 + this.center[2], 1,
+
+                                    -1 + this.center[0], 1 + this.center[1], -1 + this.center[2], 1,
+                                    -1 + this.center[0], -1 + this.center[1], -1 + this.center[2], 1,
+
+                                    1 + this.center[0], -1 + this.center[1], -1 + this.center[2], 1,
+
+                                    1 + this.center[0], 1 + this.center[1], -1 + this.center[2], 1
+                                    ]);
 
     this.generateIdx();
     this.generatePos();
