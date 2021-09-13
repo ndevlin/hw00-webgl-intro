@@ -7,6 +7,7 @@ import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
 import Camera from './Camera';
 import {setGL} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
+import Cube from './geometry/Cube';
 
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
@@ -16,15 +17,24 @@ const controls = {
 };
 
 let icosphere: Icosphere;
+
 let square: Square;
+
+let cube: Cube;
+
 let prevTesselations: number = 5;
 
 function loadScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, controls.tesselations);
   icosphere.create();
+
   square = new Square(vec3.fromValues(0, 0, 0));
   square.create();
+
+  cube = new Cube(vec3.fromValues(0, 0, 0));
+  cube.create();
 }
+
 
 function main() {
   // Initial display for framerate
@@ -58,7 +68,7 @@ function main() {
   const renderer = new OpenGLRenderer(canvas);
 
   // Original values (0.2, 0.2, 0.2)
-  renderer.setClearColor(0.9, 0.9, 0.9, 1);
+  renderer.setClearColor(0.2, 0.2, 0.2, 1);
 
   gl.enable(gl.DEPTH_TEST);
 
@@ -82,7 +92,8 @@ function main() {
     renderer.render(camera, lambert, [
       icosphere,
       // Render square for testing
-      square,
+      //square,
+      cube,
     ]);
     stats.end();
 
