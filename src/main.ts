@@ -16,6 +16,11 @@ const controls = {
   'Load Scene': loadScene, // A function pointer, essentially
 };
 
+const actualColor = {
+  defaultColor: [ 255, 0, 0 ], // RGB array
+};
+
+
 let icosphere: Icosphere;
 
 let square: Square;
@@ -50,6 +55,10 @@ function main() {
   const gui = new DAT.GUI();
   gui.add(controls, 'tesselations', 0, 8).step(1);
   gui.add(controls, 'Load Scene');
+
+
+  gui.addColor(actualColor, 'defaultColor');
+
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
