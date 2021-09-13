@@ -31,7 +31,7 @@ function loadScene() {
   square = new Square(vec3.fromValues(0, 0, 0));
   square.create();
 
-  cube = new Cube(vec3.fromValues(0, 0, 0));
+  cube = new Cube(vec3.fromValues(1, 1, 1));
   cube.create();
 }
 
