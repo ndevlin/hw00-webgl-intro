@@ -7,6 +7,8 @@ precision highp float;
 uniform vec4 u_Color; // The color with which to render this instance of geometry.
 
 // Interpolated values out of the rasterizer
+in vec4 fs_Pos;
+
 in vec4 fs_Nor;
 in vec4 fs_LightVec;
 in vec4 fs_Col;
@@ -31,4 +33,7 @@ void main()
 
         // Compute final shaded color
         out_Col = vec4(diffuseColor.rgb * lightIntensity, diffuseColor.a);
+
+        out_Col = fs_Pos;
 }
+
