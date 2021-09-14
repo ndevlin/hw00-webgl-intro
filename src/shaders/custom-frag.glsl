@@ -15,13 +15,10 @@ in vec4 fs_Col;
 
 out vec4 out_Col; 
 
-
 float noise3D( vec3 p ) 
 {
-    return fract(sin(dot(vec2(p[0], p[1]), vec2(127.1, 311.7))) * p[2]);   // * 43758.5453);
+    return fract(sin((dot(p, vec3(127.1, 311.7, 191.999)))) * 43758.5453);
 }
-
-
 
 
 // Interpolate in 3 dimensions
