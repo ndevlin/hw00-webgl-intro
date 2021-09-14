@@ -16,26 +16,28 @@ in vec4 fs_Col;
 out vec4 out_Col; 
 
 
-float noise2D( vec2 p ) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) *
-                 43758.5453);
+float noise3D( vec3 p ) 
+{
+    return fract(sin(dot(vec2(p[0], p[1]), vec2(127.1, 311.7))) * p[2]);   // * 43758.5453);
 }
 
 
 
 
 // Interpolate in 2 dimensions
-float interpNoise2D(float x, float y) 
+float interpNoise3D(float x, float y, float z) 
 {
     int intX = int(floor(x));
     float fractX = fract(x);
     int intY = int(floor(y));
     float fractY = fract(y);
+    int intZ = int(floor(z));
+    float fractZ = fract(z);
 
-    float v1 = noise2D(vec2(intX, intY));
-    float v2 = noise2D(vec2(intX + 1, intY));
-    float v3 = noise2D(vec2(intX, intY + 1));
-    float v4 = noise2D(vec2(intX + 1, intY + 1));
+    float v1 = noise3D(vec3(intX, intY, intZ));
+    float v2 = noise3D(vec3(intX + 1, intY, intZ));
+    float v3 = noise3D(vec3(intX, intY + 1, intZ));
+    float v4 = noise3D(vec3(intX + 1, intY + 1, intZ));
 
     float i1 = mix(v1, v2, fractX);
     float i2 = mix(v3, v4, fractX);
@@ -44,7 +46,7 @@ float interpNoise2D(float x, float y)
 
 
 // 2D Fractal Brownian Motion
-float fbm(float x, float y) 
+float fbm(float x, float y, float z) 
 {
     float total = 0.f;
 
@@ -57,12 +59,9 @@ float fbm(float x, float y)
         float freq = pow(2.f, float(i));
         float amp = pow(persistence, float(i));
 
-        total += interpNoise2D(x * freq,
-                               y * freq) * amp;
+        total += interpNoise3D(x * freq, y * freq, z * freq) * amp;
     }
     
-    total += interpNoise2D(x, y);
-
     return total;
 }
 
@@ -91,7 +90,7 @@ void main()
 
 
 
-        float val = fbm(fs_Pos[0], fs_Pos[1]);
+        float val = fbm(fs_Pos[0], fs_Pos[1], fs_Pos[2]);
 
         out_Col = vec4(val, val, val, 1.0);
 }
