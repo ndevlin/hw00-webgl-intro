@@ -24,9 +24,11 @@ float noise3D( vec3 p )
 
 
 
-// Interpolate in 2 dimensions
+// Interpolate in 3 dimensions
 float interpNoise3D(float x, float y, float z) 
 {
+
+    
     int intX = int(floor(x));
     float fractX = fract(x);
     int intY = int(floor(y));
@@ -39,13 +41,29 @@ float interpNoise3D(float x, float y, float z)
     float v3 = noise3D(vec3(intX, intY + 1, intZ));
     float v4 = noise3D(vec3(intX + 1, intY + 1, intZ));
 
+    float v5 = noise3D(vec3(intX, intY, intZ + 1));
+    float v6 = noise3D(vec3(intX + 1, intY, intZ + 1));
+    float v7 = noise3D(vec3(intX, intY + 1, intZ + 1));
+    float v8 = noise3D(vec3(intX + 1, intY + 1, intZ + 1));
+
     float i1 = mix(v1, v2, fractX);
     float i2 = mix(v3, v4, fractX);
-    return mix(i1, i2, fractY);
+
+    float i3 = mix(i1, i2, fractY);
+
+    float i4 = mix(v5, v6, fractX);
+    float i5 = mix(v7, v8, fractX);
+
+    float i6 = mix(i4, i5, fractY);
+
+    float i7 = mix(i3, i6, fractZ);
+
+    return i7;
+
 }
 
 
-// 2D Fractal Brownian Motion
+// 3D Fractal Brownian Motion
 float fbm(float x, float y, float z) 
 {
     float total = 0.f;
@@ -69,7 +87,7 @@ float fbm(float x, float y, float z)
 void main()
 {
     // Material base color (before shading)
-        vec4 diffuseColor = vec4(0.0, 1.0, 0.0, 1.0); //u_Color;
+        vec4 diffuseColor = u_Color;
 
         // Calculate the diffuse term for Lambert shading
         float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec));
@@ -85,13 +103,8 @@ void main()
         // Compute final shaded color
         out_Col = vec4(diffuseColor.rgb * lightIntensity, diffuseColor.a);
 
-        // Output position
-        out_Col = fs_Pos;
-
-
-
         float val = fbm(fs_Pos[0], fs_Pos[1], fs_Pos[2]);
 
-        out_Col = vec4(val, val, val, 1.0);
+        out_Col *= val;
 }
 
