@@ -35,6 +35,8 @@ class OpenGLRenderer
     prog.setViewProjMatrix(viewProj);
     prog.setGeometryColor(color);
 
+    prog.setCurrTick(currTick);
+
     for (let drawable of drawables) {
       prog.draw(drawable);
     }

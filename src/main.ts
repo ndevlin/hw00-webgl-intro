@@ -29,7 +29,7 @@ let cube: Cube;
 
 let prevTesselations: number = 5;
 
-let currTick: number = 0;
+let currTick: number = 0.0;
 
 function loadScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, controls.tesselations);

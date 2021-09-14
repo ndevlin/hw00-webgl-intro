@@ -59,7 +59,8 @@ void main()
     gl_Position = u_ViewProj * modelposition;
 
 
-    float toAdd = float(u_Time);
+    float toAdd = float(u_Time) / 1000.0;
+
 
     gl_Position += vec4(toAdd, toAdd, toAdd, 1.0);
 }
