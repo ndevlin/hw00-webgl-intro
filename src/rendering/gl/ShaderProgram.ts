@@ -30,6 +30,8 @@ class ShaderProgram {
   unifViewProj: WebGLUniformLocation;
   unifColor: WebGLUniformLocation;
 
+  unifCurrTick: WebGLUniformLocation;
+
   constructor(shaders: Array<Shader>) {
     this.prog = gl.createProgram();
 
@@ -48,6 +50,8 @@ class ShaderProgram {
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
     this.unifColor      = gl.getUniformLocation(this.prog, "u_Color");
+
+    this.unifCurrTick = gl.getUniformLocation(this.prog, "u_Time");
   }
 
   use() {
@@ -84,6 +88,17 @@ class ShaderProgram {
       gl.uniform4fv(this.unifColor, color);
     }
   }
+
+
+  setCurrTick(currTick: number)
+  {
+    this.use();
+    if(this.unifCurrTick !== -1)
+    {
+      gl.uniform1i(this.unifCurrTick, currTick);
+    }
+  }
+
 
   draw(d: Drawable) {
     this.use();

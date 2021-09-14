@@ -29,6 +29,8 @@ let cube: Cube;
 
 let prevTesselations: number = 5;
 
+let currTick: number = 0;
+
 function loadScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, controls.tesselations);
   icosphere.create();
@@ -77,7 +79,7 @@ function main() {
 
   const renderer = new OpenGLRenderer(canvas);
 
-  // Original values (0.2, 0.2, 0.2)
+  // Original values (0.2, 0.2, 0.2, 1)
   renderer.setClearColor(0.2, 0.2, 0.2, 1);
 
   gl.enable(gl.DEPTH_TEST);
@@ -93,7 +95,11 @@ function main() {
   ]);
 
   // This function will be called every frame
-  function tick() {
+  function tick() 
+  {
+
+    currTick+= 1.0;
+
     camera.update();
     stats.begin();
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
@@ -120,13 +126,14 @@ function main() {
     // Render with custom shader
     renderer.render(camera, custom, [
       icosphere,
-      // Render square for testing
-      //square,
       cube,
     ],
     // Divide by 256 to convert from web RGB to shader 0-1 values
-    vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1));
+    vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1),
+    currTick
+    );
 
+    console.log(currTick);
 
     stats.end();
 

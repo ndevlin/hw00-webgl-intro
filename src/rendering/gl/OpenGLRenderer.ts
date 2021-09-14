@@ -5,7 +5,8 @@ import {gl} from '../../globals';
 import ShaderProgram from './ShaderProgram';
 
 // In this file, `gl` is accessible because it is imported above
-class OpenGLRenderer {
+class OpenGLRenderer 
+{
   constructor(public canvas: HTMLCanvasElement) {
   }
 
@@ -22,7 +23,8 @@ class OpenGLRenderer {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   }
 
-  render(camera: Camera, prog: ShaderProgram, drawables: Array<Drawable>, colorIn: vec4) {
+  render(camera: Camera, prog: ShaderProgram, drawables: Array<Drawable>, colorIn: vec4, currTick: number) 
+  {
     let model = mat4.create();
     let viewProj = mat4.create();
     let color = colorIn; //vec4.fromValues(1, 0, 0, 1);

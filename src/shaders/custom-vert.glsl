@@ -14,6 +14,9 @@ uniform mat4 u_ViewProj;    // The matrix that defines the camera's transformati
                             // We've written a static matrix for you to use for HW2,
                             // but in HW3 you'll have to generate one yourself
 
+uniform int u_Time;
+
+
 in vec4 vs_Pos;             // The array of vertex positions passed to the shader
 
 in vec4 vs_Nor;             // The array of vertex normals passed to the shader
@@ -53,6 +56,10 @@ void main()
     fs_Pos = vs_Pos;
 
 
-    // Test to see vertex pos change
     gl_Position = u_ViewProj * modelposition;
+
+
+    float toAdd = float(u_Time);
+
+    gl_Position += vec4(toAdd, toAdd, toAdd, 1.0);
 }
