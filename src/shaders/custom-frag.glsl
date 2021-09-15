@@ -109,7 +109,8 @@ void main()
 
         vec3 val = fbm(fs_Pos[0], fs_Pos[1], fs_Pos[2]);
 
-        out_Col += vec4(val, 1.0);
+        out_Col += vec4(val, 1.0) / 2.0;
 
+        out_Col /= ((val[0] + val[1] + val[2]) / 3.0);
 }
 
