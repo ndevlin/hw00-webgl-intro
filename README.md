@@ -12,5 +12,7 @@
 View a live WebGL Demo here!:
 https://ndevlin.github.io/hw00-webgl-intro/
 
-![](ColoredTriangleScreenshot.png)
+
+## ScreenShot: 
+![](NoisyPlanetScreenShot.png)
 
