@@ -1,10 +1,12 @@
 #version 300 es
 
-// Custom Fragment Shader
+// Written by Nathan Devlin, based on reference by Adam Mally
+
+// 3D Fractal Brownian Motion Fragment Shader
 
 precision highp float;
 
-uniform vec4 u_Color; // The color with which to render this instance of geometry.
+uniform vec4 u_Color; // User input color
 
 // Interpolated values out of the rasterizer
 in vec4 fs_Pos;
@@ -15,7 +17,7 @@ in vec4 fs_Col;
 
 out vec4 out_Col; 
 
-
+// Takes in a vec3, returns a vec3, to be used below as a color
 vec3 noise3D( vec3 p ) 
 {
     float val1 = fract(sin((dot(p, vec3(127.1, 311.7, 191.999)))) * 43758.5453);
@@ -31,8 +33,6 @@ vec3 noise3D( vec3 p )
 // Interpolate in 3 dimensions
 vec3 interpNoise3D(float x, float y, float z) 
 {
-
-    
     int intX = int(floor(x));
     float fractX = fract(x);
     int intY = int(floor(y));
@@ -63,7 +63,6 @@ vec3 interpNoise3D(float x, float y, float z)
     vec3 i7 = mix(i3, i6, fractZ);
 
     return i7;
-
 }
 
 
@@ -72,7 +71,6 @@ vec3 fbm(float x, float y, float z)
 {
     vec3 total = vec3(0.f, 0.f, 0.f);
 
-    
     float persistence = 0.5f;
     int octaves = 8;
 
@@ -90,23 +88,20 @@ vec3 fbm(float x, float y, float z)
 
 void main()
 {
-    // Material base color (before shading)
+        // Material base color (before shading)
         vec4 diffuseColor = u_Color;
 
         // Calculate the diffuse term for Lambert shading
         float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec));
-        // Avoid negative lighting values
-        // diffuseTerm = clamp(diffuseTerm, 0, 1);
 
-        float ambientTerm = 0.2;
+        float ambientTerm = 0.3;
 
-        float lightIntensity = diffuseTerm + ambientTerm;   //Add a small float value to the color multiplier
-                                                            //to simulate ambient lighting. This ensures that faces that are not
-                                                            //lit by our point light are not completely black.
+        float lightIntensity = diffuseTerm + ambientTerm;   
 
-        // Compute final shaded color
+        // Lambert shading
         out_Col = vec4(diffuseColor.rgb * lightIntensity, diffuseColor.a);
 
+        // Add fbm noise
         vec3 val = fbm(fs_Pos[0], fs_Pos[1], fs_Pos[2]);
 
         out_Col += vec4(val, 1.0);

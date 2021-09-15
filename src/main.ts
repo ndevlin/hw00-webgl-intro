@@ -1,3 +1,6 @@
+
+// Original code by Adam Mally, additions by Nathan Devlin
+
 import {vec3, vec4} from 'gl-matrix';
 const Stats = require('stats-js');
 import * as DAT from 'dat.gui';
@@ -16,10 +19,11 @@ const controls = {
   'Load Scene': loadScene, // A function pointer, essentially
 };
 
-const colorObject = {
+// Controller that allows user color input
+const colorObject = 
+{
   actualColor: [ 255, 0, 0 ], // RGB array
 };
-
 
 let icosphere: Icosphere;
 
@@ -29,7 +33,7 @@ let cube: Cube;
 
 let prevTesselations: number = 5;
 
-
+// Used as a clock
 let currTick: number = 0.0;
 
 function loadScene() {
@@ -39,13 +43,14 @@ function loadScene() {
   square = new Square(vec3.fromValues(0, 0, 0));
   square.create();
 
-  // Constructor takes in object origin
+  // Cube constructor takes in object origin
   cube = new Cube(vec3.fromValues(1, 1, 1));
   cube.create();
 }
 
 
-function main() {
+function main() 
+{
   // Initial display for framerate
   const stats = Stats();
   stats.setMode(0);
@@ -59,7 +64,7 @@ function main() {
   gui.add(controls, 'tesselations', 0, 8).step(1);
   gui.add(controls, 'Load Scene');
 
-
+  // Color control; RGB input
   gui.addColor(colorObject, 'actualColor');
 
 
@@ -80,16 +85,17 @@ function main() {
 
   const renderer = new OpenGLRenderer(canvas);
 
-  // Original values (0.2, 0.2, 0.2, 1)
   renderer.setClearColor(0.2, 0.2, 0.2, 1);
 
   gl.enable(gl.DEPTH_TEST);
 
+  // Standard lambert shader
   const lambert = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/lambert-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/lambert-frag.glsl')),
   ]);
 
+  // Noise-based vertex and fragment shaders
   const custom = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/custom-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/custom-frag.glsl')),
@@ -98,8 +104,8 @@ function main() {
   // This function will be called every frame
   function tick() 
   {
-
-    currTick+= 1.0;
+    // Increment the clock
+    currTick += 1.0;
 
     camera.update();
     stats.begin();
@@ -113,7 +119,6 @@ function main() {
     }
 
     // Render with lambert shader
-    
     /*
     renderer.render(camera, lambert, [
       icosphere,
@@ -125,18 +130,13 @@ function main() {
     );
     */
 
-
-    // Render with custom shader
-    renderer.render(camera, custom, [
-      icosphere,
-      cube,
-    ],
+    // Render with custom noise-based shader
+    renderer.render(camera, custom, [icosphere, cube],
     // Divide by 256 to convert from web RGB to shader 0-1 values
     vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1),
     currTick
     );
     
-
     stats.end();
 
     // Tell the browser to call `tick` again whenever it renders a new frame
@@ -158,3 +158,4 @@ function main() {
 }
 
 main();
+

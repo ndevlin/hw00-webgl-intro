@@ -1,3 +1,6 @@
+
+// Original code by Adam Mally, additions by Nathan Devlin
+
 import {mat4, vec4} from 'gl-matrix';
 import Drawable from './Drawable';
 import Camera from '../../Camera';
@@ -27,7 +30,7 @@ class OpenGLRenderer
   {
     let model = mat4.create();
     let viewProj = mat4.create();
-    let color = colorIn; //vec4.fromValues(1, 0, 0, 1);
+    let color = colorIn;
 
     mat4.identity(model);
     mat4.multiply(viewProj, camera.projectionMatrix, camera.viewMatrix);
@@ -44,3 +47,4 @@ class OpenGLRenderer
 };
 
 export default OpenGLRenderer;
+
