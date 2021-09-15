@@ -12,7 +12,7 @@ import Cube from './geometry/Cube';
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  tesselations: 5,
+  tesselations: 4,
   'Load Scene': loadScene, // A function pointer, essentially
 };
 
@@ -28,6 +28,7 @@ let square: Square;
 let cube: Cube;
 
 let prevTesselations: number = 5;
+
 
 let currTick: number = 0.0;
 
@@ -112,16 +113,18 @@ function main() {
     }
 
     // Render with lambert shader
+    
     /*
     renderer.render(camera, lambert, [
       icosphere,
-      // Render square for testing
-      //square,
       cube,
     ],
     // Divide by 256 to convert from web RGB to shader 0-1 values
-    vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1));
+    vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1),
+    currTick
+    );
     */
+
 
     // Render with custom shader
     renderer.render(camera, custom, [
@@ -132,8 +135,7 @@ function main() {
     vec4.fromValues(colorObject.actualColor[0] / 256.0, colorObject.actualColor[1] / 256.0, colorObject.actualColor[2] / 256.0, 1),
     currTick
     );
-
-    console.log(currTick);
+    
 
     stats.end();
 
