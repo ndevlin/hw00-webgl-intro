@@ -15,14 +15,21 @@ in vec4 fs_Col;
 
 out vec4 out_Col; 
 
-float noise3D( vec3 p ) 
+
+vec3 noise3D( vec3 p ) 
 {
-    return fract(sin((dot(p, vec3(127.1, 311.7, 191.999)))) * 43758.5453);
+    float val1 = fract(sin((dot(p, vec3(127.1, 311.7, 191.999)))) * 43758.5453);
+
+    float val2 = fract(sin((dot(p, vec3(191.999, 127.1, 311.7)))) * 3758.5453);
+
+    float val3 = fract(sin((dot(p, vec3(311.7, 191.999, 127.1)))) * 758.5453);
+
+    return vec3(val1, val2, val3);
 }
 
 
 // Interpolate in 3 dimensions
-float interpNoise3D(float x, float y, float z) 
+vec3 interpNoise3D(float x, float y, float z) 
 {
 
     
@@ -33,27 +40,27 @@ float interpNoise3D(float x, float y, float z)
     int intZ = int(floor(z));
     float fractZ = fract(z);
 
-    float v1 = noise3D(vec3(intX, intY, intZ));
-    float v2 = noise3D(vec3(intX + 1, intY, intZ));
-    float v3 = noise3D(vec3(intX, intY + 1, intZ));
-    float v4 = noise3D(vec3(intX + 1, intY + 1, intZ));
+    vec3 v1 = noise3D(vec3(intX, intY, intZ));
+    vec3 v2 = noise3D(vec3(intX + 1, intY, intZ));
+    vec3 v3 = noise3D(vec3(intX, intY + 1, intZ));
+    vec3 v4 = noise3D(vec3(intX + 1, intY + 1, intZ));
 
-    float v5 = noise3D(vec3(intX, intY, intZ + 1));
-    float v6 = noise3D(vec3(intX + 1, intY, intZ + 1));
-    float v7 = noise3D(vec3(intX, intY + 1, intZ + 1));
-    float v8 = noise3D(vec3(intX + 1, intY + 1, intZ + 1));
+    vec3 v5 = noise3D(vec3(intX, intY, intZ + 1));
+    vec3 v6 = noise3D(vec3(intX + 1, intY, intZ + 1));
+    vec3 v7 = noise3D(vec3(intX, intY + 1, intZ + 1));
+    vec3 v8 = noise3D(vec3(intX + 1, intY + 1, intZ + 1));
 
-    float i1 = mix(v1, v2, fractX);
-    float i2 = mix(v3, v4, fractX);
+    vec3 i1 = mix(v1, v2, fractX);
+    vec3 i2 = mix(v3, v4, fractX);
 
-    float i3 = mix(i1, i2, fractY);
+    vec3 i3 = mix(i1, i2, fractY);
 
-    float i4 = mix(v5, v6, fractX);
-    float i5 = mix(v7, v8, fractX);
+    vec3 i4 = mix(v5, v6, fractX);
+    vec3 i5 = mix(v7, v8, fractX);
 
-    float i6 = mix(i4, i5, fractY);
+    vec3 i6 = mix(i4, i5, fractY);
 
-    float i7 = mix(i3, i6, fractZ);
+    vec3 i7 = mix(i3, i6, fractZ);
 
     return i7;
 
@@ -61,9 +68,9 @@ float interpNoise3D(float x, float y, float z)
 
 
 // 3D Fractal Brownian Motion
-float fbm(float x, float y, float z) 
+vec3 fbm(float x, float y, float z) 
 {
-    float total = 0.f;
+    vec3 total = vec3(0.f, 0.f, 0.f);
 
     
     float persistence = 0.5f;
@@ -100,8 +107,9 @@ void main()
         // Compute final shaded color
         out_Col = vec4(diffuseColor.rgb * lightIntensity, diffuseColor.a);
 
-        float val = fbm(fs_Pos[0], fs_Pos[1], fs_Pos[2]);
+        vec3 val = fbm(fs_Pos[0], fs_Pos[1], fs_Pos[2]);
 
-        out_Col *= val;
+        out_Col += vec4(val, 1.0);
+
 }
 
